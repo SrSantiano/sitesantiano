@@ -1,25 +1,33 @@
 <!DOCTYPE html>
+<!-- Documento HTML5 com idioma português brasileiro -->
 <html lang="pt-br">
 <head>
+  <!-- Configurações básicas de codificação e responsividade -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Vinicius Santiano</title>
+  <!-- Ícone exibido na aba do navegador -->
   <link rel="icon" href="/img/fotografo.png" type="image/png">
+  <!-- Arquivo de estilos principal -->
   <link rel="stylesheet" href="styles.css">
 
+  <!-- Kit do FontAwesome para ícones -->
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
+  <!-- Abas de navegação para separar as pastas de imagens -->
   <div class="tabs" id="tabs"></div>
+  <!-- Contêiner da galeria de imagens -->
   <div class="gallery" id="gallery">
     <p>Carregando imagens...</p>
   </div>
 
+  <!-- Lightbox exibido ao clicar em uma imagem -->
   <div class="lightbox" id="lightbox">
     <img src="" alt="Imagem ampliada" id="lightbox-img" />
   </div>
 
-  <!-- BOTÃO SIMPLES REDONDO HAMBURGER COM MENU -->
+  <!-- Botão de menu flutuante com links rápidos -->
   <div class="simple-menu-container">
     <button id="simpleMenuBtn" aria-label="Abrir menu">≡</button>
     <nav id="simpleMenu">
@@ -29,6 +37,7 @@
     </nav>
   </div>
 
+  <!-- Arquivo JavaScript principal -->
   <script src="script.js"></script>
 
 </body>

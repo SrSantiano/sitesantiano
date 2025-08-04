@@ -1,3 +1,4 @@
+/* Estilos básicos da página */
 body {
   margin: 0;
   padding: 2rem;
@@ -5,6 +6,7 @@ body {
   font-family: sans-serif;
 }
 
+/* Área das abas que filtram as imagens */
 .tabs {
   display: flex;
   overflow-x: auto;
@@ -15,10 +17,12 @@ body {
   scrollbar-width: none;
 }
 
+/* Remove a barra de rolagem visível das abas */
 .tabs::-webkit-scrollbar {
   display: none;
 }
 
+/* Botões individuais das abas */
 .tab {
   flex: 0 0 auto;
   background: #ddd;
@@ -29,16 +33,19 @@ body {
   font-weight: bold;
 }
 
+/* Estilo da aba ativa */
 .tab.active {
   background: #333;
   color: white;
 }
 
+/* Galeria de imagens organizada em colunas */
 .gallery {
   column-count: 4;
   column-gap: 1rem;
 }
 
+/* Imagens dentro da galeria */
 .gallery img {
   width: 100%;
   display: block;
@@ -49,16 +56,19 @@ body {
   transition: transform 0.3s;
 }
 
+/* Efeito ao passar o mouse sobre a imagem */
 .gallery img:hover {
   transform: scale(1.02);
 }
 
+/* Ajustes responsivos para telas médias */
 @media (max-width: 1200px) {
   .gallery {
     column-count: 3;
   }
 }
 
+/* Ajustes responsivos para tablets */
 @media (max-width: 768px) {
   .gallery {
     column-count: 2;
@@ -66,6 +76,7 @@ body {
   }
 }
 
+/* Ajustes responsivos para celulares */
 @media (max-width: 480px) {
   body {
     padding: 0.5rem;
@@ -79,6 +90,7 @@ body {
   }
 }
 
+/* Sobreposição exibida ao clicar em uma imagem */
 .lightbox {
   display: none;
   position: fixed;
@@ -92,6 +104,7 @@ body {
   align-items: center;
 }
 
+/* Imagem ampliada dentro do lightbox */
 .lightbox img {
   max-width: 90%;
   max-height: 80vh;
@@ -100,6 +113,7 @@ body {
 
 /* === BOTÃO SIMPLES REDONDO HAMBURGER === */
 
+/* Container do botão flutuante e do menu */
 .simple-menu-container {
   position: fixed;
   bottom: 16px;
@@ -109,6 +123,7 @@ body {
   font-family: sans-serif;
 }
 
+/* Botão redondo que abre o menu */
 #simpleMenuBtn {
   background: #333;
   color: #fff;
@@ -126,6 +141,7 @@ body {
   padding: 0;
 }
 
+/* Menu de links que aparece acima do botão */
 #simpleMenu {
   position: absolute;
   bottom: 56px;
@@ -140,10 +156,12 @@ body {
   overflow: hidden;
 }
 
+/* Estado visível do menu */
 #simpleMenu.show {
   display: flex;
 }
 
+/* Links dentro do menu */
 #simpleMenu a {
   padding: 10px 16px;
   color: #eee;
@@ -154,11 +172,12 @@ body {
   white-space: nowrap;
 }
 
+/* Remove borda do último link */
 #simpleMenu a:last-child {
   border-bottom: none;
 }
 
+/* Efeito ao passar o mouse sobre os links */
 #simpleMenu a:hover {
   background-color: #555;
 }
-
