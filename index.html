@@ -1,188 +1,33 @@
 <!DOCTYPE html>
+<!-- Documento HTML5 com idioma português brasileiro -->
 <html lang="pt-br">
 <head>
+  <!-- Configurações básicas de codificação e responsividade -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Vinicius Santiano</title>
+  <!-- Ícone exibido na aba do navegador -->
   <link rel="icon" href="/img/fotografo.png" type="image/png">
-  <style>
-    body {
-      margin: 0;
-      padding: 2rem;
-      background: #fafafa;
-      font-family: sans-serif;
-    }
+  <!-- Arquivo de estilos principal -->
+  <link rel="stylesheet" href="styles.css">
 
-    .tabs {
-      display: flex;
-      overflow-x: auto;
-      gap: 0.5rem;
-      padding-bottom: 1rem;
-      margin-bottom: 1rem;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-    }
-
-    .tabs::-webkit-scrollbar {
-      display: none;
-    }
-
-    .tab {
-      flex: 0 0 auto;
-      background: #ddd;
-      border: none;
-      padding: 0.6rem 1.2rem;
-      border-radius: 20px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .tab.active {
-      background: #333;
-      color: white;
-    }
-
-    .gallery {
-      column-count: 4;
-      column-gap: 1rem;
-    }
-
-    .gallery img {
-      width: 100%;
-      display: block;
-      margin-bottom: 1rem;
-      border-radius: 16px;
-      object-fit: cover;
-      cursor: pointer;
-      transition: transform 0.3s;
-    }
-
-    .gallery img:hover {
-      transform: scale(1.02);
-    }
-
-    @media (max-width: 1200px) {
-      .gallery {
-        column-count: 3;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .gallery {
-        column-count: 2;
-        column-gap: 0.5rem;
-      }
-    }
-
-    @media (max-width: 480px) {
-      body {
-        padding: 0.5rem;
-      }
-      .gallery {
-        column-count: 2;
-        column-gap: 0.5rem;
-      }
-      .gallery img {
-        margin-bottom: 0.5rem !important;
-      }
-    }
-
-    .lightbox {
-      display: none;
-      position: fixed;
-      z-index: 9999;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.8);
-      justify-content: center;
-      align-items: center;
-    }
-
-    .lightbox img {
-      max-width: 90%;
-      max-height: 80vh;
-      border-radius: 12px;
-    }
-
-    /* === BOTÃO SIMPLES REDONDO HAMBURGER === */
-
-    .simple-menu-container {
-      position: fixed;
-      bottom: 16px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 2000;
-      font-family: sans-serif;
-    }
-
-    #simpleMenuBtn {
-      background: #333;
-      color: #fff;
-      border: none;
-      border-radius: 50%;
-      font-size: 24px;
-      width: 48px;
-      height: 48px;
-      cursor: pointer;
-      user-select: none;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 0;
-    }
-
-    #simpleMenu {
-      position: absolute;
-      bottom: 56px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #444;
-      border-radius: 6px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-      display: none;
-      flex-direction: column;
-      min-width: 160px;
-      overflow: hidden;
-    }
-
-    #simpleMenu.show {
-      display: flex;
-    }
-
-    #simpleMenu a {
-      padding: 10px 16px;
-      color: #eee;
-      text-decoration: none;
-      font-size: 14px;
-      border-bottom: 1px solid #555;
-      transition: background-color 0.2s;
-      white-space: nowrap;
-    }
-
-    #simpleMenu a:last-child {
-      border-bottom: none;
-    }
-
-    #simpleMenu a:hover {
-      background-color: #555;
-    }
-  </style>
+  <!-- Kit do FontAwesome para ícones -->
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
+  <!-- Abas de navegação para separar as pastas de imagens -->
   <div class="tabs" id="tabs"></div>
+  <!-- Contêiner da galeria de imagens -->
   <div class="gallery" id="gallery">
     <p>Carregando imagens...</p>
   </div>
 
+  <!-- Lightbox exibido ao clicar em uma imagem -->
   <div class="lightbox" id="lightbox">
     <img src="" alt="Imagem ampliada" id="lightbox-img" />
   </div>
 
-  <!-- BOTÃO SIMPLES REDONDO HAMBURGER COM MENU -->
+  <!-- Botão de menu flutuante com links rápidos -->
   <div class="simple-menu-container">
     <button id="simpleMenuBtn" aria-label="Abrir menu">≡</button>
     <nav id="simpleMenu">
@@ -192,192 +37,8 @@
     </nav>
   </div>
 
- <script>
-
-
-
-  
-const BUCKET = 'arquivos-clientes-sntn';
-
-  let allImages = {};
-  let currentTab = 'Geral';
-  let imageList = [];
-  let currentIndex = 0;
-  let loadedCount = 0;
-  const initialBatch = 20;
-  const batchSize = 10;
-  let observer;
-
-  function shuffleArray(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
-  }
-
-
-
-
-
-  async function fetchImages() {
-  const res = await fetch('get-images.php');
-  const data = await res.json();
-  
-  
-  
-  
-  
-    if (!data.items) return;
-
-    data.items.forEach(file => {
-      if (!/\.(jpe?g|png|webp)$/i.test(file.name)) return;
-      const parts = file.name.split('/');
-      const folder = parts[1] || 'Geral';
-      const url = `https://storage.googleapis.com/${BUCKET}/${encodeURIComponent(file.name)}`;
-      if (!allImages[folder]) allImages[folder] = [];
-      allImages[folder].push(url);
-      if (!allImages['Geral']) allImages['Geral'] = [];
-      allImages['Geral'].push(url);
-    });
-
-    createTabs();
-    loadGallery('Geral');
-  }
-
-  function createTabs() {
-    const tabs = document.getElementById('tabs');
-    tabs.innerHTML = '';
-    Object.keys(allImages).forEach(tab => {
-      const button = document.createElement('button');
-      button.className = 'tab';
-      button.textContent = tab;
-      button.onclick = () => loadGallery(tab);
-      if (tab === 'Geral') button.classList.add('active');
-      tabs.appendChild(button);
-    });
-  }
-
-  function loadGallery(tab) {
-    currentTab = tab;
-    imageList = allImages[tab].slice();
-    if (tab === 'Geral') {
-      imageList = shuffleArray(imageList);
-    }
-
-    currentIndex = 0;
-    loadedCount = 0;
-    const gallery = document.getElementById('gallery');
-    const buttons = document.querySelectorAll('.tab');
-    buttons.forEach(btn => btn.classList.remove('active'));
-    document.querySelector(`.tab:nth-child(${Object.keys(allImages).indexOf(tab) + 1})`).classList.add('active');
-    gallery.innerHTML = '';
-
-    if (observer) observer.disconnect();
-
-    if (tab === 'Geral') {
-      appendNextBatch();
-
-      const sentinel = document.createElement('div');
-      sentinel.id = 'sentinel';
-      sentinel.style.height = '1px';
-      gallery.appendChild(sentinel);
-
-      observer = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) {
-          appendNextBatch();
-        }
-      });
-
-      observer.observe(sentinel);
-    } else {
-      imageList.forEach((url, index) => {
-        const img = document.createElement('img');
-        img.src = url;
-        img.loading = 'lazy';
-        img.onclick = () => openLightbox(index);
-        gallery.appendChild(img);
-      });
-    }
-  }
-
-  function appendNextBatch() {
-    const gallery = document.getElementById('gallery');
-    const nextBatch = imageList.slice(loadedCount, loadedCount + (loadedCount === 0 ? initialBatch : batchSize));
-
-    nextBatch.forEach((url, i) => {
-      const realIndex = loadedCount + i;
-      const img = document.createElement('img');
-      img.src = url;
-      img.loading = 'lazy';
-      img.onclick = () => openLightbox(realIndex);
-      gallery.insertBefore(img, document.getElementById('sentinel'));
-    });
-
-    loadedCount += nextBatch.length;
-  }
-
-  function openLightbox(index) {
-    currentIndex = index;
-    document.getElementById('lightbox-img').src = imageList[index];
-    document.getElementById('lightbox').style.display = 'flex';
-  }
-
-  function closeLightbox() {
-    document.getElementById('lightbox').style.display = 'none';
-  }
-
-  function nextImage() {
-    if (currentIndex < imageList.length - 1) openLightbox(currentIndex + 1);
-  }
-
-  function prevImage() {
-    if (currentIndex > 0) openLightbox(currentIndex - 1);
-  }
-
-  document.getElementById('lightbox').addEventListener('click', closeLightbox);
-  document.addEventListener('keydown', e => {
-    if (document.getElementById('lightbox').style.display === 'flex') {
-      if (e.key === 'ArrowRight') nextImage();
-      if (e.key === 'ArrowLeft') prevImage();
-      if (e.key === 'Escape') closeLightbox();
-    }
-  });
-
-  document.getElementById('lightbox').addEventListener('touchstart', handleTouchStart, false);
-  document.getElementById('lightbox').addEventListener('touchmove', handleTouchMove, false);
-
-  let xDown = null;
-
-  function handleTouchStart(evt) {
-    xDown = evt.touches[0].clientX;
-  }
-
-  function handleTouchMove(evt) {
-    if (!xDown) return;
-    let xUp = evt.touches[0].clientX;
-    let xDiff = xDown - xUp;
-    if (Math.abs(xDiff) > 50) {
-      if (xDiff > 0) nextImage(); else prevImage();
-      xDown = null;
-    }
-  }
-
-  const simpleBtn = document.getElementById('simpleMenuBtn');
-  const simpleMenu = document.getElementById('simpleMenu');
-
-  simpleBtn.addEventListener('click', () => {
-    simpleMenu.classList.toggle('show');
-  });
-
-  document.addEventListener('click', e => {
-    if (!simpleBtn.contains(e.target) && !simpleMenu.contains(e.target)) {
-      simpleMenu.classList.remove('show');
-    }
-  });
-
-  fetchImages();
-</script>
+  <!-- Arquivo JavaScript principal -->
+  <script src="script.js"></script>
 
 </body>
 </html>

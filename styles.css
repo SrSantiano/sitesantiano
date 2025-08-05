@@ -1,0 +1,183 @@
+/* Estilos básicos da página */
+body {
+  margin: 0;
+  padding: 2rem;
+  background: #fafafa;
+  font-family: sans-serif;
+}
+
+/* Área das abas que filtram as imagens */
+.tabs {
+  display: flex;
+  overflow-x: auto;
+  gap: 0.5rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+/* Remove a barra de rolagem visível das abas */
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+
+/* Botões individuais das abas */
+.tab {
+  flex: 0 0 auto;
+  background: #ddd;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Estilo da aba ativa */
+.tab.active {
+  background: #333;
+  color: white;
+}
+
+/* Galeria de imagens organizada em colunas */
+.gallery {
+  column-count: 4;
+  column-gap: 1rem;
+}
+
+/* Imagens dentro da galeria */
+.gallery img {
+  width: 100%;
+  display: block;
+  margin-bottom: 1rem;
+  border-radius: 16px;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+/* Efeito ao passar o mouse sobre a imagem */
+.gallery img:hover {
+  transform: scale(1.02);
+}
+
+/* Ajustes responsivos para telas médias */
+@media (max-width: 1200px) {
+  .gallery {
+    column-count: 3;
+  }
+}
+
+/* Ajustes responsivos para tablets */
+@media (max-width: 768px) {
+  .gallery {
+    column-count: 2;
+    column-gap: 0.5rem;
+  }
+}
+
+/* Ajustes responsivos para celulares */
+@media (max-width: 480px) {
+  body {
+    padding: 0.5rem;
+  }
+  .gallery {
+    column-count: 2;
+    column-gap: 0.5rem;
+  }
+  .gallery img {
+    margin-bottom: 0.5rem !important;
+  }
+}
+
+/* Sobreposição exibida ao clicar em uma imagem */
+.lightbox {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  justify-content: center;
+  align-items: center;
+}
+
+/* Imagem ampliada dentro do lightbox */
+.lightbox img {
+  max-width: 90%;
+  max-height: 80vh;
+  border-radius: 12px;
+}
+
+/* === BOTÃO SIMPLES REDONDO HAMBURGER === */
+
+/* Container do botão flutuante e do menu */
+.simple-menu-container {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2000;
+  font-family: sans-serif;
+}
+
+/* Botão redondo que abre o menu */
+#simpleMenuBtn {
+  background: #333;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+/* Menu de links que aparece acima do botão */
+#simpleMenu {
+  position: absolute;
+  bottom: 56px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #444;
+  border-radius: 6px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+  display: none;
+  flex-direction: column;
+  min-width: 160px;
+  overflow: hidden;
+}
+
+/* Estado visível do menu */
+#simpleMenu.show {
+  display: flex;
+}
+
+/* Links dentro do menu */
+#simpleMenu a {
+  padding: 10px 16px;
+  color: #eee;
+  text-decoration: none;
+  font-size: 14px;
+  border-bottom: 1px solid #555;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+}
+
+/* Remove borda do último link */
+#simpleMenu a:last-child {
+  border-bottom: none;
+}
+
+/* Efeito ao passar o mouse sobre os links */
+#simpleMenu a:hover {
+  background-color: #555;
+}
